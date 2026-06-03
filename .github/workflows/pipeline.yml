@@ -123,6 +123,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: youngminds73/bankapp:latest
+        tags: shahidteli/bankapp:latest
         file: ./Dockerfile
 
