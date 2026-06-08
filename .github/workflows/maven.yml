@@ -166,7 +166,14 @@ jobs:
    - name: Verify Cluster Access
      run: |
         kubectl get nodes
-
+        
+   - name: List Files
+     run: |
+       pwd
+       ls -la
+       find . -name "*.yaml"
+       find . -name "*.yml"
+       
    - name: Deploy Application
      run: |
         kubectl apply -f ds.yaml
