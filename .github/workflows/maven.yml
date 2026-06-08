@@ -142,3 +142,37 @@ jobs:
         push: true
         tags: shahidteli/bankapp:latest
         file: ./Dockerfile
+ 
+  deploy_to_eks:
+   runs-on: self-hosted
+   needs: build_docker_image_and_push
+   steps:
+    
+   - uses: actions/checkout@v4
+
+   - name: Configure AWS Credentials
+     uses: aws-actions/configure-aws-credentials@v4
+     with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+   - name: Update kubeconfig
+     run: |
+        aws eks update-kubeconfig \
+          --region us-west-2 \
+          --name shahid-cluster
+
+   - name: Verify Cluster Access
+     run: |
+        kubectl get nodes
+
+   - name: Deploy Application
+     run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+
+   - name: Verify Deployment
+     run: |
+        kubectl get pods
+        kubectl get svc
