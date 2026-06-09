@@ -12,7 +12,7 @@ on:
   push:
     branches: [ "Req052635" ]
   pull_request:
-    branches: [ "Req052635" ]
+    branches: [ "main" ]
 
 jobs:
   build:
